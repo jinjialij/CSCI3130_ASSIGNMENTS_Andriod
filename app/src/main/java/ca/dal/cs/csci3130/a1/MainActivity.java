@@ -1,8 +1,10 @@
 package ca.dal.cs.csci3130.a1;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -12,44 +14,46 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
+    EditText editText1;
+    TextView result;
     Button submitBtn;
-    PopupWindow popupWindow;
-
+    AlertDialog.Builder alertBuilder;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //get editText1, result, and submitBtn from the activity_main
+        editText1 = (EditText) findViewById(R.id.editText1);
+        result = (TextView) findViewById(R.id.result);
+
+        alertBuilder = new AlertDialog.Builder(this);
+
         submitBtn = (Button) findViewById(R.id.submitBtn);
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LayoutInflater layoutInflater = (LayoutInflater) MainActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                View customView = layoutInflater.inflate(R.layout.layout_popup, null);
-                //create a pop up window, using layout_popup as the content view
-                popupWindow = new PopupWindow(customView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, true);
+                if (editText1.getText().toString().isEmpty()){
+                    Toast.makeText(MainActivity.this, "Please enter a number", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    result.setText(editText1.getText().toString());
+                    alertBuilder.setMessage(result.getText().toString());
+                    alertBuilder.setTitle("Result");
+                    alertBuilder.setNeutralButton("Close", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
 
-                //let the popup window shows at the center of the activity_main page
-                View root = LayoutInflater.from(MainActivity.this).inflate(R.layout.activity_main, null);
-                popupWindow.showAtLocation(root, Gravity.CENTER, 0, 0);
+                        }
+                    });
 
-                //get the input value of editText1
-                EditText editText1 = (EditText) findViewById(R.id.editText1);
-
-                //get the result TextView object in the layout_popup and set its text value to the editText1's value
-                TextView result = (TextView) popupWindow.getContentView().findViewById(R.id.result);
-                result.setText("Result: "+editText1.getText().toString());
-
-                //create a button to close the popup window
-                Button closeBtn = (Button) popupWindow.getContentView().findViewById(R.id.closeBtn);
-                closeBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        popupWindow.dismiss();
-                    }
-                });
+                    //create dialog box
+                    AlertDialog alert = alertBuilder.create();
+                    alert.show();
+                }
             }
         });
     }

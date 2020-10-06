@@ -5,6 +5,13 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import org.junit.Rule;
 import org.junit.Test;
 
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.typeText;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
+
 public class EspressoTest {
 
     @Rule
@@ -12,17 +19,17 @@ public class EspressoTest {
 
     @Test
     public void testNameAndEmailAndRegistrationButton(){
-        onView(withId(R.id.editText_name))
+        onView(withId(R.id.editTextName))
                 .perform(click())
                 .perform(typeText("jiali"));
-        onView(withId(R.id.editText_email))
+        onView(withId(R.id.editTextEmail))
                 .perform(click())
                 .perform(typeText("jiali@123"));
-        onView(withId(R.id.editText_name))
+        onView(withId(R.id.editTextName))
                 .check(matches(withText("jiali")));
-        onView(withId(R.id.editText_email))
+        onView(withId(R.id.editTextEmail))
                 .check(matches(withText("jiali@123")));
-        onView(withId(R.id.button_register))
+        onView(withId(R.id.buttonRegister))
                 .check(matches(withText("Registration")));
     }
 }

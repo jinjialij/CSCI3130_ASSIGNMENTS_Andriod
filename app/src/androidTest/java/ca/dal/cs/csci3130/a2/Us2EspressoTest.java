@@ -48,14 +48,14 @@ public class Us2EspressoTest {
                 .check(matches(withText("Registration")));
     }
 
-    @Test
-    public void testErrorMessageForWrongUsername(){
-        onView(withId(R.id.editTextName))
-                .perform(click())
-                .perform(typeText("12345"));
-        onView(withId(R.id.buttonRegister))
-                .perform(click());
-        onView(withText("Empty or non-alphanumeric username"))
-                .inRoot(withDecorView(not(is(getActivity().getWindow().getDecorView())))).check(matches(isDisplayed()));
-    }
+//    @Test
+//    public void testErrorMessageForWrongUsername(){
+//        onView(withId(R.id.editTextName))
+//                .perform(click())
+//                .perform(typeText("12345"));
+//        onView(withId(R.id.buttonRegister))
+//                .perform(click());
+//        onView(withText("Empty or non-alphanumeric username"))
+//                .inRoot(withDecorView(not(is(getActivity().getWindow().getDecorView())))).check(matches(isDisplayed()));
+//    }
 }

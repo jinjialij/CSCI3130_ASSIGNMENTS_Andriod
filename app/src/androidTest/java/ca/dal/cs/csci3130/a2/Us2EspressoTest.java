@@ -1,23 +1,19 @@
 package ca.dal.cs.csci3130.a2;
 
-import androidx.test.core.app.ActivityScenario;
+import androidx.test.espresso.action.ViewActions;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
-import static androidx.test.espresso.matcher.RootMatchers.withDecorView;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
+import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
 
 public class Us2EspressoTest {
 
@@ -48,14 +44,28 @@ public class Us2EspressoTest {
                 .check(matches(withText("Registration")));
     }
 
-//    @Test
-//    public void testErrorMessageForWrongUsername(){
-//        onView(withId(R.id.editTextName))
-//                .perform(click())
-//                .perform(typeText("12345"));
-//        onView(withId(R.id.buttonRegister))
-//                .perform(click());
-//        onView(withText("Empty or non-alphanumeric username"))
-//                .inRoot(withDecorView(not(is(getActivity().getWindow().getDecorView())))).check(matches(isDisplayed()));
-//    }
+    @Test
+    public void testErrorMessageForWrongUsername_non_alphanumeric(){
+        onView(withId(R.id.editTextName))
+                .perform(click())
+                .perform(typeText("#^^&"), ViewActions.closeSoftKeyboard());
+        onView(withId(R.id.buttonRegister))
+                .perform(click())
+                .check(matches(isEnabled()));;
+        onView(withId(R.id.errorMessageNameView))
+                .check(matches(withText("Username is non-alphanumeric")));
+    }
+
+    @Test
+    public void testErrorMessageForWrongUsername_empty(){
+        onView(withId(R.id.editTextName))
+                .perform(click())
+                .perform(typeText(""), ViewActions.closeSoftKeyboard());
+        onView(withId(R.id.buttonRegister))
+                .perform(click());
+        onView(withId(R.id.errorMessageNameView))
+                .check(matches(withText("Username is empty")));
+    }
+
+
 }

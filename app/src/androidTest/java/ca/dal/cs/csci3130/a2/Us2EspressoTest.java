@@ -90,5 +90,19 @@ public class Us2EspressoTest {
                 .check(matches(withText("Email is empty")));
     }
 
+    @Test
+    public void test__welcome_screen(){
+        onView(withId(R.id.editTextName))
+                .perform(click())
+                .perform(typeText("jiali"), ViewActions.closeSoftKeyboard());
+        onView(withId(R.id.editTextEmail))
+                .perform(click())
+                .perform(typeText("jl123@d.ca"), ViewActions.closeSoftKeyboard());
+        onView(withId(R.id.buttonRegister))
+                .perform(click());
+        onView(withId(R.id.welcomeTextView))
+                .check(matches(withText("Welcome jiali! A welcome email was sent to jl123@d.ca")));
+    }
+
 
 }

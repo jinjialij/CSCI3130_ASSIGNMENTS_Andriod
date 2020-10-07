@@ -31,4 +31,18 @@ public class registrationFirebaseTest {
                 .check(matches(withText("Successful registration!")));
     }
 
+    @Test
+    public void testLogin(){
+        onView(withId(R.id.editTextName))
+                .perform(click())
+                .perform(typeText("jiali"), ViewActions.closeSoftKeyboard());
+        onView(withId(R.id.editTextEmail))
+                .perform(click())
+                .perform(typeText("jl123@d.ca"), ViewActions.closeSoftKeyboard());
+        onView(withId(R.id.buttonLogin))
+                .perform(click());
+        onView(withId(R.id.welcomeTextView))
+                .check(matches(withText("Welcome back, jiali!")));
+    }
+
 }

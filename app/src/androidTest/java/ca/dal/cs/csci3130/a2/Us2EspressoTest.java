@@ -68,7 +68,7 @@ public class Us2EspressoTest {
     }
 
     @Test
-    public void testInvalidEmail_wrong_fromat(){
+    public void testInvalidEmail_wrong_format(){
         onView(withId(R.id.editTextEmail))
                 .perform(click())
                 .perform(typeText("dadasgmail"), ViewActions.closeSoftKeyboard());

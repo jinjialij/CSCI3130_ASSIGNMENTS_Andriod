@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
         EditText email = (EditText) view.findViewById(R.id.editTextEmail);
         Button register = (Button) view.findViewById(R.id.buttonRegister);
 
+
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override

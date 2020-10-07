@@ -103,6 +103,4 @@ public class Us2EspressoTest {
         onView(withId(R.id.welcomeTextView))
                 .check(matches(withText("Welcome jiali!\nA welcome email was sent to jl123@d.ca")));
     }
-
-
 }

@@ -76,21 +76,24 @@ public class FirstFragment extends Fragment {
                     errorMessageForEmail.setText("");
                     boolean result = UserService.registerNewUser(db, name.getText().toString(), email.getText().toString());
 
-                    Bundle bundle = new Bundle();
-                    bundle.putString("msg","Welcome " + name.getText().toString() +"!\nA welcome email was sent to " + email.getText().toString());
                     if(result) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("msg","Welcome " + name.getText().toString() +"!\nA welcome email was sent to " + email.getText().toString());
                         bundle.putString("result", "Successful registration!");
+                        Fragment fragment = new Fragment();
+                        fragment.setArguments(bundle);
+                        getParentFragmentManager()
+                                .beginTransaction()
+                                .add(fragment, null)
+                                .commit();
+
+
+                        NavHostFragment.findNavController(FirstFragment.this)
+                                .navigate(R.id.action_FirstFragment_to_SecondFragment);
                     }
-                    Fragment fragment = new Fragment();
-                    fragment.setArguments(bundle);
-                    getParentFragmentManager()
-                            .beginTransaction()
-                            .add(fragment, null)
-                            .commit();
-
-
-                    NavHostFragment.findNavController(FirstFragment.this)
-                            .navigate(R.id.action_FirstFragment_to_SecondFragment);
+                    else{
+                        errorMessageForEmail.setText("Registration failed.");
+                    }
                 }
             }
         });

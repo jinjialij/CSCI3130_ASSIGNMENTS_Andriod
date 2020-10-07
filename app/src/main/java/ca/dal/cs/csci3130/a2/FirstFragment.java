@@ -1,5 +1,6 @@
 package ca.dal.cs.csci3130.a2;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,7 @@ public class FirstFragment extends Fragment {
     TextView errorMessageForEmail;
     EditText email;
     Button registerBtn;
+    TextView welcomeTextView;
 
     @Override
     public View onCreateView(
@@ -63,6 +65,15 @@ public class FirstFragment extends Fragment {
                 if (validName && validEmail) {
                     errorMessageForName.setText("");
                     errorMessageForEmail.setText("");
+                    Bundle bundle = new Bundle();
+                    bundle.putString("msg","Welcome " + name.getText().toString() +"!\nA welcome email was sent to " + email.getText().toString());
+                    Fragment fragment = new Fragment();
+                    fragment.setArguments(bundle);
+                    getParentFragmentManager()
+                            .beginTransaction()
+                            .add(fragment, null)
+                            .commit();
+
                     NavHostFragment.findNavController(FirstFragment.this)
                             .navigate(R.id.action_FirstFragment_to_SecondFragment);
                 }

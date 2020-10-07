@@ -67,5 +67,28 @@ public class Us2EspressoTest {
                 .check(matches(withText("Username is empty")));
     }
 
+    @Test
+    public void testInvalidEmail_wrong_fromat(){
+        onView(withId(R.id.editTextEmail))
+                .perform(click())
+                .perform(typeText("dadasgmail"), ViewActions.closeSoftKeyboard());
+        onView(withId(R.id.buttonRegister))
+                .perform(click())
+                .check(matches(isEnabled()));;
+        onView(withId(R.id.errorMessageEmailView))
+                .check(matches(withText("Invalid Email address")));
+    }
+
+    @Test
+    public void testInvalidEmail__empty(){
+        onView(withId(R.id.editTextEmail))
+                .perform(click())
+                .perform(typeText(""), ViewActions.closeSoftKeyboard());
+        onView(withId(R.id.buttonRegister))
+                .perform(click());
+        onView(withId(R.id.errorMessageEmailView))
+                .check(matches(withText("Email is empty")));
+    }
+
 
 }

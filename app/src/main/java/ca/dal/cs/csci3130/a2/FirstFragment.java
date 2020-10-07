@@ -42,20 +42,19 @@ public class FirstFragment extends Fragment {
         view.findViewById(R.id.buttonRegister).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                boolean validName = true;
-                boolean validEmail=true;
-                if (name.getText().toString().isEmpty()){
+                boolean validName = !name.getText().toString().isEmpty();
+                boolean validEmail= !email.getText().toString().isEmpty();
+
+                if (!validName){
                     errorMessageForName.setText("Username is empty");
-                    validName = false;
                 }
                 else if (!validationHelper.isValidName(name.getText().toString())){
                     errorMessageForName.setText("Username is non-alphanumeric");
                     validName = false;
                 }
 
-                if (email.getText().toString().isEmpty()){
+                if (!validEmail){
                     errorMessageForEmail.setText("Email is empty");
-                    validEmail = false;
                 }
                 else if (!validationHelper.isValidEmail(email.getText().toString())){
                     errorMessageForEmail.setText("Invalid Email address");

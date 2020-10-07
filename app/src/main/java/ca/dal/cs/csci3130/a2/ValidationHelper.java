@@ -2,7 +2,7 @@ package ca.dal.cs.csci3130.a2;
 
 import java.util.regex.Pattern;
 
-public class validationHelper {
+public class ValidationHelper {
     private static  Pattern emailRegex = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
     private static  String usernamePattern = ("^.*[^a-zA-Z0-9 ].*$");
 

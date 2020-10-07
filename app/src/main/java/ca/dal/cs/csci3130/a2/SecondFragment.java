@@ -12,10 +12,14 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.List;
 
 public class SecondFragment extends Fragment {
     TextView welcomeTextView;
+    TextView successRegisterMessage;
 
     @Override
     public View onCreateView(
@@ -30,12 +34,14 @@ public class SecondFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         welcomeTextView = (TextView) view.findViewById(R.id.welcomeTextView);
+        successRegisterMessage = (TextView) view.findViewById(R.id.successMessageTextView);
         Bundle bundle = null;
         if (!getParentFragmentManager().getFragments().isEmpty()){
             bundle = getParentFragmentManager().getFragments().get(0).getArguments();
         }
         if(bundle != null){
             welcomeTextView.setText((String)bundle.get("msg"));
+            successRegisterMessage.setText((String)bundle.get("result"));
         }
 
         view.findViewById(R.id.button_second).setOnClickListener(new View.OnClickListener() {

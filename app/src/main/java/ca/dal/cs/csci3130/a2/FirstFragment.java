@@ -7,13 +7,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
-
-import java.util.regex.Pattern;
 
 public class FirstFragment extends Fragment {
     EditText name;
@@ -21,8 +18,6 @@ public class FirstFragment extends Fragment {
     TextView errorMessageForEmail;
     EditText email;
     Button registerBtn;
-
-    Pattern emailRegex = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
 
     @Override
     public View onCreateView(
@@ -45,26 +40,24 @@ public class FirstFragment extends Fragment {
         view.findViewById(R.id.buttonRegister).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                boolean validName = false;
-                boolean validEmail = false;
+                boolean validName = true;
+                boolean validEmail=true;
                 if (name.getText().toString().isEmpty()){
                     errorMessageForName.setText("Username is empty");
+                    validName = false;
                 }
-                else if (name.getText().toString().matches("^.*[^a-zA-Z0-9 ].*$")){
+                else if (!validationHelper.isValidName(name.getText().toString())){
                     errorMessageForName.setText("Username is non-alphanumeric");
-                }
-                else{
-                    validName = true;
+                    validName = false;
                 }
 
                 if (email.getText().toString().isEmpty()){
                     errorMessageForEmail.setText("Email is empty");
+                    validEmail = false;
                 }
-                else if (!emailRegex.matcher(email.getText().toString()).find()){
+                else if (!validationHelper.isValidEmail(email.getText().toString())){
                     errorMessageForEmail.setText("Invalid Email address");
-                }
-                else{
-                    validEmail = true;
+                    validEmail = false;
                 }
 
                 if (validName && validEmail) {

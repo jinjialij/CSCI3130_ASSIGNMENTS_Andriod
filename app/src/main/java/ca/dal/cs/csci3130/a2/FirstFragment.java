@@ -75,26 +75,33 @@ public class FirstFragment extends Fragment {
                 if (validName && validEmail) {
                     errorMessageForName.setText("");
                     errorMessageForEmail.setText("");
-                    boolean result = UserService.registerNewUser(db, name.getText().toString(), email.getText().toString());
-
-                    if(result) {
-                        Bundle bundle = new Bundle();
-                        bundle.putString("registerMessage","Welcome " + name.getText().toString() +"!\nA welcome email was sent to " + email.getText().toString());
-                        bundle.putString("result", "Successful registration!");
-                        Fragment fragment = new Fragment();
-                        fragment.setArguments(bundle);
-                        getParentFragmentManager()
-                                .beginTransaction()
-                                .add(fragment, null)
-                                .commit();
-
-
-                        NavHostFragment.findNavController(FirstFragment.this)
-                                .navigate(R.id.action_FirstFragment_to_SecondFragment);
+                    boolean exists = UserService.accountExists(name.getText().toString(), email.getText().toString(), userMap);
+                    if(exists){
+                        errorMessageForEmail.setText("Account exists. Please use it to login.");
                     }
                     else{
-                        errorMessageForEmail.setText("Registration failed.");
+                        boolean result = UserService.registerNewUser(db, name.getText().toString(), email.getText().toString());
+
+                        if(result) {
+                            Bundle bundle = new Bundle();
+                            bundle.putString("registerMessage","Welcome " + name.getText().toString() +"!\nA welcome email was sent to " + email.getText().toString());
+                            bundle.putString("result", "Successful registration!");
+                            Fragment fragment = new Fragment();
+                            fragment.setArguments(bundle);
+                            getParentFragmentManager()
+                                    .beginTransaction()
+                                    .add(fragment, null)
+                                    .commit();
+
+
+                            NavHostFragment.findNavController(FirstFragment.this)
+                                    .navigate(R.id.action_FirstFragment_to_SecondFragment);
+                        }
+                        else{
+                            errorMessageForEmail.setText("Registration failed.");
+                        }
                     }
+
                 }
             }
         });

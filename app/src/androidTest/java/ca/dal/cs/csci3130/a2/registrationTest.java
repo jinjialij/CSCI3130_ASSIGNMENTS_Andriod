@@ -29,6 +29,7 @@ import org.junit.Test;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Random;
 
 public class registrationTest {
     @Rule
@@ -66,8 +67,10 @@ public class registrationTest {
 
     @Test
     public void testRegister(){
-        String username = "jiali";
-        String email = "jl123@d.ca";
+        Random random = new Random();
+        int num = random.nextInt(100);
+        String username = "ed" + num;
+        String email = "ed" + num + "@d.ca";
         onView(withId(R.id.editTextName))
                 .perform(click())
                 .perform(typeText(username), ViewActions.closeSoftKeyboard());
@@ -85,8 +88,10 @@ public class registrationTest {
 
     @Test
     public void testRegister_with_account_exists(){
-        String username = "jiali";
-        String email = "jl123@d.ca";
+        Random random = new Random(100);
+        int num = random.nextInt(100);
+        String username = "kd" + num;
+        String email = "kd" + num + "@d.ca";
         onView(withId(R.id.editTextName))
                 .perform(click())
                 .perform(typeText(username), ViewActions.closeSoftKeyboard());

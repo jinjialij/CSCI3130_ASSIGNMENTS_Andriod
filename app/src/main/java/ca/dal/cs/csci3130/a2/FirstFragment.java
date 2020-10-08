@@ -12,15 +12,10 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 public class FirstFragment extends Fragment {
@@ -41,7 +36,6 @@ public class FirstFragment extends Fragment {
     ) {
         db = FirebaseDatabase.getInstance().getReference();
         userMap =  new HashMap<>();
-//        users = new ArrayList<User>();
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_first, container, false);
     }
@@ -104,7 +98,6 @@ public class FirstFragment extends Fragment {
                 }
             }
         });
-//        UserService.readData(db, users);
         UserService.readData(db, userMap);
 
         loginBtn.setOnClickListener(new View.OnClickListener() {
@@ -132,7 +125,6 @@ public class FirstFragment extends Fragment {
                 if (validName && validEmail) {
                     errorMessageForName.setText("");
                     errorMessageForEmail.setText("");
-//                    boolean result = UserService.accountExists(name.getText().toString(), email.getText().toString(), users);
                     boolean result = UserService.accountExists(name.getText().toString(), email.getText().toString(), userMap);
                     if(result) {
                         Bundle bundle = new Bundle();
@@ -143,7 +135,6 @@ public class FirstFragment extends Fragment {
                                 .beginTransaction()
                                 .add(fragment, null)
                                 .commit();
-
 
                         NavHostFragment.findNavController(FirstFragment.this)
                                 .navigate(R.id.action_FirstFragment_to_SecondFragment);

@@ -20,6 +20,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
@@ -80,4 +82,38 @@ public class registrationTest {
         assertTrue(userMap.containsKey(username));
         assertEquals(userMap.get(username).getEmail(), email);
     }
+
+    @Test
+    public void testRegister_with_account_exists(){
+        String username = "jiali";
+        String email = "jl123@d.ca";
+        onView(withId(R.id.editTextName))
+                .perform(click())
+                .perform(typeText(username), ViewActions.closeSoftKeyboard());
+        onView(withId(R.id.editTextEmail))
+                .perform(click())
+                .perform(typeText(email), ViewActions.closeSoftKeyboard());
+        onView(withId(R.id.buttonRegister))
+                .perform(click());
+        onView(withId(R.id.successMessageTextView))
+                .check(matches(withText("Successful registration!")));
+        onView(withId(R.id.buttonPrevious))
+                .perform(click());
+        onView(withId(R.id.editTextName))
+                .perform(click())
+                .perform(typeText(username), ViewActions.closeSoftKeyboard());
+        onView(withId(R.id.editTextEmail))
+                .perform(click())
+                .perform(typeText(email), ViewActions.closeSoftKeyboard());
+        onView(withId(R.id.buttonRegister))
+                .perform(click());
+        onView(withId(R.id.errorMessageEmailView))
+                .check(matches(withText("Account exists. Please use it to login.")));
+        assertFalse(userMap.isEmpty());
+        assertTrue(userMap.containsKey(username));
+        assertEquals(userMap.get(username).getEmail(), email);
+    }
+
+    @AfterClass
+    public static void tearDown() { db = null; }
 }

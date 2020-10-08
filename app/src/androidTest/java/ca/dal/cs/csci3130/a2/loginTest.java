@@ -10,6 +10,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
@@ -17,11 +18,14 @@ import org.junit.Test;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Random;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -62,8 +66,10 @@ public class loginTest {
 
     @Test
     public void testLogin_withAccount(){
-        String username = "jiali";
-        String email = "jl123@d.ca";
+        Random random = new Random();
+        int num = random.nextInt(100);
+        String username = "jv" + num;
+        String email = "jv" + num + "@d.ca";
         onView(withId(R.id.editTextName))
                 .perform(click())
                 .perform(typeText(username), ViewActions.closeSoftKeyboard());
@@ -82,6 +88,8 @@ public class loginTest {
                 .perform(typeText(email), ViewActions.closeSoftKeyboard());
         onView(withId(R.id.buttonLogin))
                 .perform(click());
+        onView(withId(R.id.welcomeTextView))
+                .check(matches(withText("Welcome back, " + username + "!")));
         assertFalse(userMap.isEmpty());
         assertTrue(userMap.containsKey(username));
         assertEquals(userMap.get(username).getEmail(), email);
@@ -89,8 +97,10 @@ public class loginTest {
 
     @Test
     public void testLogin_withoutAccount() {
-        String username = "abcd";
-        String email = "abcd@d.ca";
+        Random random = new Random();
+        int num = random.nextInt(100);
+        String username = "abcd" + num;
+        String email = "abcd" + num + "@d.ca";
         onView(withId(R.id.editTextName))
                 .perform(click())
                 .perform(typeText(username), ViewActions.closeSoftKeyboard());
@@ -101,4 +111,7 @@ public class loginTest {
                 .perform(click());
         assertFalse(userMap.containsKey(username));
     }
+
+    @AfterClass
+    public static void tearDown() { db = null; }
 }

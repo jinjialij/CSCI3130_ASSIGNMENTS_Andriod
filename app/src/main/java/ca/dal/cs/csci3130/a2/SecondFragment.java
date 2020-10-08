@@ -47,6 +47,11 @@ public class SecondFragment extends Fragment {
         view.findViewById(R.id.buttonPrevious).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                for (int i=0; i<getParentFragmentManager().getFragments().size(); i++){
+                    Fragment frag = getParentFragmentManager().getFragments().get(i);
+                    getParentFragmentManager().beginTransaction().remove(frag).commitAllowingStateLoss();
+                }
+
                 NavHostFragment.findNavController(SecondFragment.this)
                         .navigate(R.id.action_SecondFragment_to_FirstFragment);
             }

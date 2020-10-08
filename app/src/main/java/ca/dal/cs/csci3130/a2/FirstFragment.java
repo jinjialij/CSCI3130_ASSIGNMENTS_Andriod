@@ -86,11 +86,11 @@ public class FirstFragment extends Fragment {
                             Bundle bundle = new Bundle();
                             bundle.putString("registerMessage","Welcome " + name.getText().toString() +"!\nA welcome email was sent to " + email.getText().toString());
                             bundle.putString("result", "Successful registration!");
-                            Fragment fragment = new Fragment();
-                            fragment.setArguments(bundle);
+                            Fragment registrationFragement = new Fragment();
+                            registrationFragement.setArguments(bundle);
                             getParentFragmentManager()
                                     .beginTransaction()
-                                    .add(fragment, null)
+                                    .add(registrationFragement, null)
                                     .commit();
 
 

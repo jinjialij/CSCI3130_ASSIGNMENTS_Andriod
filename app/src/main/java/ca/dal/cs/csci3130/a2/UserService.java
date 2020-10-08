@@ -27,7 +27,11 @@ public class UserService {
         db.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot==null || dataSnapshot.getValue()==null){
+                    return;
+                }
                 Map<String, Object> value = (Map<String, Object>) dataSnapshot.getValue();
+
                 while(!value.isEmpty()){
                     Iterator it = value.entrySet().iterator();
                     while (it.hasNext()) {

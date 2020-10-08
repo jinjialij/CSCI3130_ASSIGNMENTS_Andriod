@@ -31,33 +31,53 @@ import java.util.Map;
 public class registrationTest {
     @Rule
     public ActivityScenarioRule<MainActivity> activityScenarioRule = new ActivityScenarioRule<MainActivity>(MainActivity.class);
+    static DatabaseReference db;
+    static Map<String, User> userMap =  new HashMap<>();
+
+    @BeforeClass
+    public static void setup(){
+        db  = FirebaseDatabase.getInstance().getReference();
+
+        db.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Map<String, Object> value = (Map<String, Object>) dataSnapshot.getValue();
+                while(!value.isEmpty()){
+                    Iterator it = value.entrySet().iterator();
+                    while (it.hasNext()) {
+                        Map.Entry pair = (Map.Entry)it.next();
+                        Map<String, String> usercontent = (Map<String, String>)pair.getValue();
+                        User user = new User(usercontent.get("username"),usercontent.get("email"));
+                        userMap.put(usercontent.get("username"), user);
+                        it.remove();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
 
     @Test
     public void testRegister(){
+        String username = "jiali";
+        String email = "jl123@d.ca";
         onView(withId(R.id.editTextName))
                 .perform(click())
-                .perform(typeText("jiali"), ViewActions.closeSoftKeyboard());
+                .perform(typeText(username), ViewActions.closeSoftKeyboard());
         onView(withId(R.id.editTextEmail))
                 .perform(click())
-                .perform(typeText("jl123@d.ca"), ViewActions.closeSoftKeyboard());
+                .perform(typeText(email), ViewActions.closeSoftKeyboard());
         onView(withId(R.id.buttonRegister))
                 .perform(click());
         onView(withId(R.id.successMessageTextView))
                 .check(matches(withText("Successful registration!")));
+        assertFalse(userMap.isEmpty());
+        assertTrue(userMap.containsKey(username));
+        assertEquals(userMap.get(username).getEmail(), email);
     }
-
-    @Test
-    public void testLogin(){
-        onView(withId(R.id.editTextName))
-                .perform(click())
-                .perform(typeText("jiali"), ViewActions.closeSoftKeyboard());
-        onView(withId(R.id.editTextEmail))
-                .perform(click())
-                .perform(typeText("jl123@d.ca"), ViewActions.closeSoftKeyboard());
-        onView(withId(R.id.buttonLogin))
-                .perform(click());
-        onView(withId(R.id.welcomeTextView))
-                .check(matches(withText("Welcome back, jiali!")));
-    }
-
 }

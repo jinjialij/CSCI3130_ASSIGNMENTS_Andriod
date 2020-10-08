@@ -1,21 +1,14 @@
 package ca.dal.cs.csci3130.a2;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
-
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
-import java.util.List;
 
 public class SecondFragment extends Fragment {
     TextView welcomeTextView;
@@ -40,11 +33,18 @@ public class SecondFragment extends Fragment {
             bundle = getParentFragmentManager().getFragments().get(0).getArguments();
         }
         if(bundle != null){
-            welcomeTextView.setText((String)bundle.get("msg"));
-            successRegisterMessage.setText((String)bundle.get("result"));
+            if (bundle.containsKey("registerMessage")){
+                welcomeTextView.setText((String)bundle.get("registerMessage"));
+            }
+            if (bundle.containsKey("loginMessage")){
+                welcomeTextView.setText((String)bundle.get("loginMessage"));
+            }
+            if (bundle.containsKey("result")){
+                successRegisterMessage.setText((String)bundle.get("result"));
+            }
         }
 
-        view.findViewById(R.id.button_second).setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.buttonPrevious).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 NavHostFragment.findNavController(SecondFragment.this)

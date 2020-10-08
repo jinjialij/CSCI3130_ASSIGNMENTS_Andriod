@@ -19,7 +19,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 public class FirstFragment extends Fragment {
     EditText name;
@@ -27,8 +29,10 @@ public class FirstFragment extends Fragment {
     TextView errorMessageForEmail;
     EditText email;
     Button registerBtn;
+    Button loginBtn;
     DatabaseReference db;
-    ArrayList<User> users = new ArrayList<User>();
+//    ArrayList<User> users;
+    Map<String, User> userMap;
 
     @Override
     public View onCreateView(
@@ -36,6 +40,8 @@ public class FirstFragment extends Fragment {
             Bundle savedInstanceState
     ) {
         db = FirebaseDatabase.getInstance().getReference();
+        userMap =  new HashMap<>();
+//        users = new ArrayList<User>();
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_first, container, false);
     }
@@ -48,8 +54,9 @@ public class FirstFragment extends Fragment {
         errorMessageForName = (TextView) view.findViewById(R.id.errorMessageNameView);
         errorMessageForEmail = (TextView) view.findViewById(R.id.errorMessageEmailView);
         registerBtn = (Button) view.findViewById(R.id.buttonRegister);
+        loginBtn = (Button) view.findViewById(R.id.buttonLogin);
 
-        view.findViewById(R.id.buttonRegister).setOnClickListener(new View.OnClickListener() {
+        registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 boolean validName = !name.getText().toString().isEmpty();
@@ -78,7 +85,7 @@ public class FirstFragment extends Fragment {
 
                     if(result) {
                         Bundle bundle = new Bundle();
-                        bundle.putString("msg","Welcome " + name.getText().toString() +"!\nA welcome email was sent to " + email.getText().toString());
+                        bundle.putString("registerMessage","Welcome " + name.getText().toString() +"!\nA welcome email was sent to " + email.getText().toString());
                         bundle.putString("result", "Successful registration!");
                         Fragment fragment = new Fragment();
                         fragment.setArguments(bundle);
@@ -93,6 +100,56 @@ public class FirstFragment extends Fragment {
                     }
                     else{
                         errorMessageForEmail.setText("Registration failed.");
+                    }
+                }
+            }
+        });
+//        UserService.readData(db, users);
+        UserService.readData(db, userMap);
+
+        loginBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view){
+                boolean validName = !name.getText().toString().isEmpty();
+                boolean validEmail= !email.getText().toString().isEmpty();
+
+                if (!validName){
+                    errorMessageForName.setText("Username is empty");
+                }
+                else if (!ValidationHelper.isValidName(name.getText().toString())){
+                    errorMessageForName.setText("Username is non-alphanumeric");
+                    validName = false;
+                }
+
+                if (!validEmail){
+                    errorMessageForEmail.setText("Email is empty");
+                }
+                else if (!ValidationHelper.isValidEmail(email.getText().toString())){
+                    errorMessageForEmail.setText("Invalid Email address");
+                    validEmail = false;
+                }
+
+                if (validName && validEmail) {
+                    errorMessageForName.setText("");
+                    errorMessageForEmail.setText("");
+//                    boolean result = UserService.accountExists(name.getText().toString(), email.getText().toString(), users);
+                    boolean result = UserService.accountExists(name.getText().toString(), email.getText().toString(), userMap);
+                    if(result) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("loginMessage","Welcome back, " + name.getText().toString() + "!");
+                        Fragment fragment = new Fragment();
+                        fragment.setArguments(bundle);
+                        getParentFragmentManager()
+                                .beginTransaction()
+                                .add(fragment, null)
+                                .commit();
+
+
+                        NavHostFragment.findNavController(FirstFragment.this)
+                                .navigate(R.id.action_FirstFragment_to_SecondFragment);
+                    }
+                    else{
+                        errorMessageForEmail.setText("Login failed.");
                     }
                 }
             }

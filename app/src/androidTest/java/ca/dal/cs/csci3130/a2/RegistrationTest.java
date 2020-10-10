@@ -31,7 +31,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Random;
 
-public class registrationTest {
+public class RegistrationTest {
     @Rule
     public ActivityScenarioRule<MainActivity> activityScenarioRule = new ActivityScenarioRule<MainActivity>(MainActivity.class);
     static DatabaseReference db;

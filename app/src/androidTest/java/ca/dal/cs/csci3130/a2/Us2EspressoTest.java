@@ -7,6 +7,8 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
+import java.util.Random;
+
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.typeText;
@@ -91,16 +93,20 @@ public class Us2EspressoTest {
     }
 
     @Test
-    public void test__welcome_screen(){
+    public void test__welcome_screen_for_new_account(){
+        Random random = new Random();
+        int num = random.nextInt(100);
+        String username = "jiali" + num;
+        String email = "jl" + num + "@d.ca";
         onView(withId(R.id.editTextName))
                 .perform(click())
-                .perform(typeText("jiali"), ViewActions.closeSoftKeyboard());
+                .perform(typeText(username), ViewActions.closeSoftKeyboard());
         onView(withId(R.id.editTextEmail))
                 .perform(click())
-                .perform(typeText("jl123@d.ca"), ViewActions.closeSoftKeyboard());
+                .perform(typeText(email), ViewActions.closeSoftKeyboard());
         onView(withId(R.id.buttonRegister))
                 .perform(click());
         onView(withId(R.id.welcomeTextView))
-                .check(matches(withText("Welcome jiali!\nA welcome email was sent to jl123@d.ca")));
+                .check(matches(withText("Welcome " + username + "!\nA welcome email was sent to " + email)));
     }
 }

@@ -1,23 +1,19 @@
 package ca.dal.cs.csci3130.a3;
 
-public class Bus {
-    final int NUMBER_OF_WHEELS = 4;
-    final int AVERAGE_KM_PER_HOUR = 60;
+public class Bus extends Vehicle {
 
-    public int getNumberOfWheels() {
-        return NUMBER_OF_WHEELS;
+    public Bus(int numberOfWheels, int averageKmPerHour){
+        super(numberOfWheels, averageKmPerHour);
     }
 
+    @Override
     public void honk() {
         System.out.println("The bus is honking!");
     }
 
+    @Override
     public boolean carryPassengers() {
         return true;
-    }
-
-    public int getAverageSpeed() {
-        return AVERAGE_KM_PER_HOUR;
     }
 
 }

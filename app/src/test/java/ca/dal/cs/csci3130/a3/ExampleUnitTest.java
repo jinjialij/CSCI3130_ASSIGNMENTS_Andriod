@@ -30,13 +30,13 @@ public class ExampleUnitTest {
 
     @Test
     public void checkBusSpeed(){
-        Bus bus=new Bus();
+        Bus bus=new Bus(4， 60);
         assertEquals(60, bus.getAverageSpeed());
     }
 
     @Test
     public void checkTruckSpeed(){
-        Truck truck=new Truck();
+        Truck truck=new Truck(4， 80);
         assertEquals(80, truck.getAverageSpeed());
     }
 

@@ -15,8 +15,6 @@ public abstract class Vehicle {
 
     public abstract boolean carryPassengers();
 
-//    public abstract boolean carryGoods();
-
     public int getAverageSpeed() {
         return averageKmPerHour;
     }

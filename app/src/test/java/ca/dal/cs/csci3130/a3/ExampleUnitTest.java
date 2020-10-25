@@ -18,13 +18,13 @@ public class ExampleUnitTest {
 
     @Test
     public void checkDogSpeed() {
-        Dog dog1 = new HuskyDog();
+        Dog dog1 = new Husky();
         assertEquals(28, dog1.getSpeed());
 
         Dog dog2 = new BullDog();
         assertEquals(15, dog2.getSpeed());
 
-        Dog dog3=new DalmatianDog();
+        Dog dog3=new Dalmatian();
         assertEquals(37, dog3.getSpeed());
     }
 

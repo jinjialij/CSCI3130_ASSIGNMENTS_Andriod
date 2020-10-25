@@ -10,10 +10,6 @@ public abstract class Dog {
 
     public abstract int getSpeed();
 
-    public String getDogType(){
-        return dogType;
-    }
-
     protected int getBaseSpeed() {
         return 15;
     }

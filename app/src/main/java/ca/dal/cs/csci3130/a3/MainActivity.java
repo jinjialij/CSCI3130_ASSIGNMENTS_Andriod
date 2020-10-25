@@ -33,24 +33,8 @@ public class MainActivity extends AppCompatActivity {
                 String dogSelected = dogList.getSelectedItem().toString();
                 String vehicleSelected = vehicleList.getSelectedItem().toString();
 
-                Dog dog;
-                if (dogSelected.equals("HUSKY")){
-                    dog = new Husky();
-                }
-                else if (dogSelected.equals("DALMATIAN")){
-                    dog = new Dalmatian();
-                }
-                else {
-                    dog = new BullDog();
-                }
-
-                Vehicle vehicle;
-                if (vehicleSelected.equals("BUS")){
-                    vehicle = new Bus(4, 60);
-                }
-                else {
-                    vehicle = new Truck(4, 80);
-                }
+                Dog dog = getDog(dogSelected);
+                Vehicle vehicle = getVehicle(vehicleSelected);
 
                 if(dog.getSpeed() >= vehicle.getAverageSpeed()){
                     result.setText(dogSelected);
@@ -61,7 +45,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
 
     protected void addDogList() {
         Spinner dogList = (Spinner) findViewById(R.id.dogList);
@@ -82,5 +65,32 @@ public class MainActivity extends AppCompatActivity {
         @SuppressLint("ResourceType") ArrayAdapter<String> vehicleListAdapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, vehicles);
         vehicleListAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         vehicleList.setAdapter(vehicleListAdapter);
+    }
+
+    protected Dog getDog(String dogSelected){
+        Dog dog;
+        if (dogSelected.equals("HUSKY")){
+            dog = new Husky();
+        }
+        else if (dogSelected.equals("DALMATIAN")){
+            dog = new Dalmatian();
+        }
+        else {
+            dog = new BullDog();
+        }
+
+        return dog;
+    }
+
+    protected Vehicle getVehicle(String vehicleSelected){
+        Vehicle vehicle;
+        if (vehicleSelected.equals("BUS")){
+            vehicle = new Bus(4, 60);
+        }
+        else {
+            vehicle = new Truck(4, 80);
+        }
+
+        return vehicle;
     }
 }

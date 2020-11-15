@@ -10,6 +10,7 @@ public class Auctioneer {
 
     public void attach(Observer bidder) {
         //This method needs modification
+        bidders.add(bidder);
     }
 
     public int getPrice() {
@@ -18,9 +19,14 @@ public class Auctioneer {
 
     public void setPrice(int currentPrice) {
         //This method needs modification
+        price = currentPrice;
+        notifyAllBidders(price);
     }
 
     protected void notifyAllBidders(int currentPrice) {
         //This method needs modification
+        for (Observer observer : bidders){
+            observer.update(currentPrice);
+        }
     }
 }

@@ -6,11 +6,14 @@ public class BidderTwo extends Observer {
 
     public BidderTwo(Auctioneer auctioneer) {
         //This constructor needs modification
+        this.auctioneer = auctioneer;
+        this.auctioneer.attach(this);
     }
 
     @Override
     public void update(int newPrice) {
         //This method needs modification
+        this.currentPrice = TEN + newPrice;
     }
 
     @Override

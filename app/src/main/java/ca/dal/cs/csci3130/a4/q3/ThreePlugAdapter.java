@@ -6,17 +6,25 @@ public class ThreePlugAdapter implements NormalPlug {
 
     public ThreePlugAdapter() {
         //This constructor needs modification
+        threePointPlug = new ThreePointPlug();
     }
 
     @Override
     public String plugMe(int numberOfPins) {
         //This method needs modification
+        if (numberOfPins == 3){
+            return threePointPlug.plugMe2ThreePointSocket();
+        }
+
         return null;
     }
 
     @Override
     public boolean hasEarthConnection(int numberOfPins) {
         //This method needs modification
+        if (numberOfPins == 3){
+            return threePointPlug.canConnectToEarth();
+        }
         return false;
     }
 }
